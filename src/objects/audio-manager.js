@@ -8,31 +8,31 @@ export class AudioManager {
     this.#eventBusComponent = eventBusComponent;
 
     this.#scene.sound.play('bg', {
-      volume: 0.6,
+      volume: 0.05,
       loop: true,
     });
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.ENEMY_DESTROYED, () => {
       this.#scene.sound.play('explosion', {
-        volume: 0.6,
+        volume: 0.05,
       });
     });
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.PLAYER_DESTROYED, () => {
       this.#scene.sound.play('explosion', {
-        volume: 0.6,
+        volume: 0.05,
       });
     });
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.SHIP_HIT, () => {
       this.#scene.sound.play('hit', {
-        volume: 0.6,
+        volume: 0.05,
       });
     });
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.SHIP_SHOOT, () => {
       this.#scene.sound.play('shot1', {
-        volume: 0.05,
+        volume: 0.01,
       });
     });
   }
