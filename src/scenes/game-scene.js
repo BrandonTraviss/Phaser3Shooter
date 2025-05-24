@@ -29,6 +29,7 @@ export class GameScene extends Phaser.Scene {
 
     this.eventBusComponent = new EventBusComponent();
     this.dead = false;
+    this.paused = false;
     const player = new Player(this, this.eventBusComponent);
     // SPAWNER COMPONENTS
     // Scout
@@ -169,22 +170,20 @@ export class GameScene extends Phaser.Scene {
         enemyGameObject.colliderComponent.collideWithEnemyProjectile();
       }
     );
-    new Score(this, this.eventBusComponent);
-    new Lives(this, this.eventBusComponent);
+    new Score(this, this.eventBusComponent).setDepth(10);
+    new Lives(this, this.eventBusComponent).setDepth(10);
     new AudioManager(this, this.eventBusComponent);
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.eventBusComponent.on(CUSTOM_EVENTS.GAME_OVER, () => {
       this.dead = true;
     });
-    this.eventBusComponent.on(CUSTOM_EVENTS.RESTART, () => {
-      this.dead = false;
-    });
   }
 
   update() {
+    console.log(this.paused);
     if (Phaser.Input.Keyboard.JustDown(this.enterKey) && this.dead == true) {
-      console.log(this.dead);
       this.eventBusComponent.emit(CUSTOM_EVENTS.RESTART);
+      return;
     }
   }
 }

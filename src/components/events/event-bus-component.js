@@ -7,6 +7,7 @@ export const CUSTOM_EVENTS = Object.freeze({
   SHIP_HIT: 'SHIP_HIT',
   SHIP_SHOOT: 'SHIP_SHOOT',
   RESTART: 'RESTART',
+  PAUSE: 'PAUSE',
 });
 
 export class EventBusComponent extends Phaser.Events.EventEmitter {
