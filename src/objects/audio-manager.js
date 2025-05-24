@@ -8,7 +8,7 @@ export class AudioManager {
     this.#eventBusComponent = eventBusComponent;
 
     this.#scene.sound.play('bg', {
-      volume: 0.05,
+      volume: 0.02,
       loop: true,
     });
 
@@ -32,7 +32,7 @@ export class AudioManager {
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.SHIP_SHOOT, () => {
       this.#scene.sound.play('shot1', {
-        volume: 0.01,
+        volume: 0.005,
       });
     });
   }
