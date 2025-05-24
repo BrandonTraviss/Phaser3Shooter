@@ -38,6 +38,13 @@ export class EnemySpawnerComponent {
     );
     eventBusComponent.on(CUSTOM_EVENTS.GAME_OVER, () => {
       this.#disableSpawning = true;
+      this.#group.getChildren().forEach((enemy) => {
+        enemy.setActive(false);
+        enemy.setVisible(false);
+      });
+    });
+    eventBusComponent.on(CUSTOM_EVENTS.RESTART, () => {
+      this.#disableSpawning = false;
     });
   }
 

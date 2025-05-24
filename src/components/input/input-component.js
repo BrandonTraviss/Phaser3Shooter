@@ -4,6 +4,7 @@ export class InputComponent {
   _left;
   _right;
   _shoot;
+  _enter;
 
   constructor() {
     this.reset();
@@ -29,11 +30,16 @@ export class InputComponent {
     return this._shoot;
   }
 
+  get enterIsDown() {
+    return this._enter;
+  }
+
   reset() {
     this._up = false;
     this._down = false;
     this._left = false;
     this._right = false;
     this._shoot = false;
+    this._enter = false;
   }
 }

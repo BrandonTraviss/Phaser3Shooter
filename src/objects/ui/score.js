@@ -25,5 +25,9 @@ export class Score extends Phaser.GameObjects.Text {
       this.#score += ENEMY_SCORE[enemy.constructor.name];
       this.setText(this.#score.toString(10));
     });
+    this.#eventBusComponent.on(CUSTOM_EVENTS.RESTART, () => {
+      this.#score = 0;
+      this.setText(this.#score.toString(10));
+    });
   }
 }

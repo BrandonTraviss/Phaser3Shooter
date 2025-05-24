@@ -27,8 +27,9 @@ export class GameScene extends Phaser.Scene {
     this.add.sprite(0, 0, 'bg2', 0).setOrigin(0, 1).setAlpha(0.7).setAngle(90).setScale(1, 1.25).play('bg2');
     this.add.sprite(0, 0, 'bg3', 0).setOrigin(0, 1).setAlpha(0.7).setAngle(90).setScale(1, 1.25).play('bg3');
 
-    const eventBusComponent = new EventBusComponent();
-    const player = new Player(this, eventBusComponent);
+    this.eventBusComponent = new EventBusComponent();
+    this.dead = false;
+    const player = new Player(this, this.eventBusComponent);
     // SPAWNER COMPONENTS
     // Scout
     const scoutSpawner = new EnemySpawnerComponent(
@@ -38,7 +39,7 @@ export class GameScene extends Phaser.Scene {
         interval: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_INTERVAL,
         spawnStart: CONFIG.ENEMY_SCOUT_GROUP_SPAWN_START,
       },
-      eventBusComponent
+      this.eventBusComponent
     );
     // Fighter
     const fighterSpawner = new EnemySpawnerComponent(
@@ -48,7 +49,7 @@ export class GameScene extends Phaser.Scene {
         interval: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_INTERVAL,
         spawnStart: CONFIG.ENEMY_FIGHTER_GROUP_SPAWN_START,
       },
-      eventBusComponent
+      this.eventBusComponent
     );
     // Frigate
     const frigateSpawner = new EnemySpawnerComponent(
@@ -58,7 +59,7 @@ export class GameScene extends Phaser.Scene {
         interval: CONFIG.ENEMY_FRIGATE_GROUP_SPAWN_INTERVAL,
         spawnStart: CONFIG.ENEMY_FRIGATE_GROUP_SPAWN_START,
       },
-      eventBusComponent
+      this.eventBusComponent
     );
     // Frigate
     const battlecruiserSpawner = new EnemySpawnerComponent(
@@ -68,10 +69,10 @@ export class GameScene extends Phaser.Scene {
         interval: CONFIG.ENEMY_BATTLECRUISER_GROUP_SPAWN_INTERVAL,
         spawnStart: CONFIG.ENEMY_BATTLECRUISER_GROUP_SPAWN_START,
       },
-      eventBusComponent
+      this.eventBusComponent
     );
     // DESTROYED EVENT EMITTER
-    new EnemyDestroyedComponent(this, eventBusComponent);
+    new EnemyDestroyedComponent(this, this.eventBusComponent);
     // OVERLAPS
     // SCOUT
     this.physics.add.overlap(player, scoutSpawner.phaserGroup, (playerGameObject, enemyGameObject) => {
@@ -106,7 +107,7 @@ export class GameScene extends Phaser.Scene {
       enemyGameObject.colliderComponent.collideWithEnemyShip();
     });
     // BULLETS
-    eventBusComponent.on(CUSTOM_EVENTS.ENEMY_INIT, (gameObject) => {
+    this.eventBusComponent.on(CUSTOM_EVENTS.ENEMY_INIT, (gameObject) => {
       if (gameObject.constructor.name == 'ScoutEnemy') {
         return;
       }
@@ -168,10 +169,19 @@ export class GameScene extends Phaser.Scene {
         enemyGameObject.colliderComponent.collideWithEnemyProjectile();
       }
     );
-    new Score(this, eventBusComponent);
-    new Lives(this, eventBusComponent);
-    new AudioManager(this, eventBusComponent);
+    new Score(this, this.eventBusComponent);
+    new Lives(this, this.eventBusComponent);
+    new AudioManager(this, this.eventBusComponent);
+    this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.eventBusComponent.on(CUSTOM_EVENTS.GAME_OVER, () => {
+      this.dead = true;
+    });
   }
 
-  update() {}
+  update() {
+    if (Phaser.Input.Keyboard.JustDown(this.enterKey) && this.dead == true) {
+      console.log('Enter key was pressed!');
+      this.eventBusComponent.emit(CUSTOM_EVENTS.RESTART);
+    }
+  }
 }

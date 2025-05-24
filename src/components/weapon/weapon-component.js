@@ -25,7 +25,11 @@ export class WeaponComponent {
       active: false,
       visible: false,
     });
-
+    eventBusComponent.on(CUSTOM_EVENTS.GAME_OVER, () => {
+      this.#bulletGroup.getChildren().forEach((bullet) => {
+        bullet.disableBody(true, true);
+      });
+    });
     this.#gameObject.scene.physics.world.on(Phaser.Physics.Arcade.Events.WORLD_STEP, this.worldStep, this);
     this.#gameObject.once(
       Phaser.GameObjects.Events.DESTROY,

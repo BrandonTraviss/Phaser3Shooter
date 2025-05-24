@@ -10,10 +10,10 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.#createAimations();
-    this.scene.start('GameScene');
+    this.#createAnimations();
+    this.scene.start('MenuScene');
   }
-  #createAimations() {
+  #createAnimations() {
     const data = this.cache.json.get('animations_json');
     data.forEach((animation) => {
       const frames = animation.frames
