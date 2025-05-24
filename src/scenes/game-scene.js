@@ -176,11 +176,14 @@ export class GameScene extends Phaser.Scene {
     this.eventBusComponent.on(CUSTOM_EVENTS.GAME_OVER, () => {
       this.dead = true;
     });
+    this.eventBusComponent.on(CUSTOM_EVENTS.RESTART, () => {
+      this.dead = false;
+    });
   }
 
   update() {
     if (Phaser.Input.Keyboard.JustDown(this.enterKey) && this.dead == true) {
-      console.log('Enter key was pressed!');
+      console.log(this.dead);
       this.eventBusComponent.emit(CUSTOM_EVENTS.RESTART);
     }
   }

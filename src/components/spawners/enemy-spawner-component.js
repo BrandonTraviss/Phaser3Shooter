@@ -45,6 +45,7 @@ export class EnemySpawnerComponent {
     });
     eventBusComponent.on(CUSTOM_EVENTS.RESTART, () => {
       this.#disableSpawning = false;
+      this.#spawnStart = spawnConfig.spawnStart;
     });
   }
 

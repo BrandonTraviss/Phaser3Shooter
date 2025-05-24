@@ -20,16 +20,6 @@ export class Lives extends Phaser.GameObjects.Container {
         });
         return;
       }
-      // this.gameOver = this.scene.add
-      //   .text(this.scene.scale.width / 2, this.scene.scale.height / 2 - 20, 'GAME OVER', {
-      //     fontSize: '24px',
-      //   })
-      //   .setOrigin(0.5);
-      // this.enterToRestart = this.scene.add
-      //   .text(this.scene.scale.width / 2, this.scene.scale.height / 2, '(Press Enter to restart)', {
-      //     fontSize: '12px',
-      //   })
-      //   .setOrigin(0.5);
       this.#eventBusComponent.emit(CUSTOM_EVENTS.GAME_OVER);
       this.gameOver.setVisible(true);
       this.enterToRestart.setVisible(true);
