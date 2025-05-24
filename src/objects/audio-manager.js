@@ -14,19 +14,19 @@ export class AudioManager {
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.ENEMY_DESTROYED, () => {
       this.#scene.sound.play('explosion', {
-        volume: 0.05,
+        volume: 0.025,
       });
     });
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.PLAYER_DESTROYED, () => {
       this.#scene.sound.play('explosion', {
-        volume: 0.05,
+        volume: 0.025,
       });
     });
 
     this.#eventBusComponent.on(CUSTOM_EVENTS.SHIP_HIT, () => {
       this.#scene.sound.play('hit', {
-        volume: 0.05,
+        volume: 0.025,
       });
     });
 
